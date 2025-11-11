@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 20th Birthday!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .number {
+            font-size: clamp(80px, 15vw, 150px);
+            font-weight: 300;
+            color: #dc2626;
+            margin-bottom: 20px;
+            letter-spacing: -5px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 300;
+            margin-bottom: 10px;
+            color: #1f1f1f;
+        }
+
+        .subtitle {
+            font-size: clamp(18px, 4vw, 24px);
+            color: #dc2626;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        .question {
+            font-size: clamp(20px, 4vw, 28px);
+            margin-bottom: 40px;
+            color: #1f1f1f;
+            line-height: 1.4;
+        }
+
+        .message-text {
+            font-size: clamp(16px, 3vw, 18px);
+            line-height: 1.8;
+            color: #444;
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .message-text p {
+            margin-bottom: 15px;
+        }
+
+        .from {
+            text-align: right;
+            font-weight: 300;
+            color: #dc2626;
+            margin-top: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: clamp(16px, 3vw, 18px);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            border: 2px solid #dc2626;
+            background: white;
+            color: #dc2626;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            min-width: 120px;
+        }
+
+        button:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+        }
+
+        button.primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        button.primary:hover {
+            background: #b91c1c;
+        }
+
+        .moving-button {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .photo-placeholder {
+            .photo-placeholder {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+                                }
+        }
+
+        .heart {
+            color: #dc2626;
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(1); }
+        }
+
+        .emoji {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Screen 1: Initial -->
+    <div class="screen active" id="screen1">
+        <div class="number">20</div>
+        <h1>Happy Birthday</h1>
+        <div class="subtitle">Rob • Janjan</div>
+        <div class="button-container">
+            <button class="primary" onclick="startWithMusic()">Let's Start! 🎉</button>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="Rob Deniel - Sinta (Official Lyric Visualizer).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Screen 2: First Question -->
+    <div class="screen" id="screen2">
+        <div class="question">Are you ready for your birthday surprise?</div>
+        <div class="button-container">
+            <button onclick="goToScreen(3)">Yes!</button>
+            <button class="moving-button" id="noBtn1" onmouseenter="moveButton(this)" onclick="wrongAnswer()">No</button>
+        </div>
+    </div>
+
+    <!-- Screen 3: Second Question -->
+    <div class="screen" id="screen3">
+        <div class="question">Sure ka na ba dyan? Bawal mag NO!</div>
+        <div class="button-container">
+            <button onclick="goToScreen(4)">That's okay!</button>
+            <button class="moving-button" id="noBtn2" onmouseenter="moveButton(this)" onclick="wrongAnswer()">NOOOOO!</button>
+        </div>
+    </div>
+
+    <!-- Screen 4: Third Question -->
+    <div class="screen" id="screen4">
+        <div class="question">You are almost there ga, keep it up! By the way love mo ba 'ko?
+        </div>
+        <div class="button-container">
+            <button onclick="goToScreen(5)">Of course!</button>
+            <button class="moving-button" id="noBtn3" onmouseenter="moveButton(this)" onclick="wrongAnswer()">No!</button>
+        </div>
+    </div>
+
+    <!-- Screen 5: Promise Question -->
+    <div class="screen" id="screen5">
+        <div class="question">Sure?</div>
+        <div class="button-container">
+            <button onclick="goToScreen(6)">Promise!</button>
+            <button class="moving-button" id="noBtn4" onmouseenter="moveButton(this)" onclick="wrongAnswer()">Hmm, pag-isipan ko pa!</button>
+        </div>
+    </div>
+
+    <!-- Screen 6: Ready for Message -->
+    <div class="screen" id="screen6">
+        <div class="emoji">💌</div>
+        <div class="question">Ready for my gift?</div>
+        <div class="button-container">
+            <button class="primary" onclick="goToScreen(7)">Show me! 💕</button>
+        </div>
+    </div>
+
+    <!-- Screen 7: The Message -->
+    <div class="screen" id="screen7">
+        <h1 style="margin-bottom: 30px;">TO MY BEST MAN</h1>
+        <div class="message-text">
+            <p>Happy birthday langga,</p>
+            
+            <p>Sorry I know this is cheap, well programmer gf mo what do you expect edi website diba? HAHAHAHA</p>
+            
+            <p>Anyways, I am so proud of you sa lahat ng mga bagay na gusto mo ma-achieve sa buhay mo. Always remember na kahit lagi tayo magkaaway ay kakampi mo pa rin ako sa lahat ng bagay.</p>
+            
+            <p>I will make bawi sa sahod ko okayy? Last minute ko na 'to kinode, panis ka na naman.</p>
+            
+            <p>I love you!</p>
+            
+            <div class="from">— Zeiraphale <span class="heart">♥</span></div>
+        </div>
+        <div class="button-container">
+            <button class="primary" onclick="goToScreen(8)">TO CONTINUE, CLICK HERE!</button>
+        </div>
+    </div>
+
+    <!-- Screen 8: Photos -->
+    <div class="screen" id="screen8">
+         <div class="photo-grid">
+    <img src="photo 1.jfif" alt="Photo 1" class="photo-placeholder">
+   
+
+  </div>
+
+        <div class="button-container">
+            <button onclick="goToScreen(9)">And ooh one more thing... 💕</button>
+        </div>
+    </div>
+
+    <!-- Screen 9: Final -->
+    <div class="screen" id="screen9">
+        <div class="emoji">🎂</div>
+        <h1>Happy 20th Birthday! I love you!</h1>
+        <div class="question" style="font-size: 18px; margin-Itop: 20px;">
+            P.S. Next year babawi ako!
+        </div>
+        <div class="button-container" style="margin-top: 40px;">
+            <button class="primary" onclick="goToScreen(1)">Start Over 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        function goToScreen(screenNumber) {
+            // Hide all screens
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => screen.classList.remove('active'));
+            
+            // Show target screen
+            document.getElementById('screen' + screenNumber).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function startWithMusic() {
+            // Play music
+            const music = document.getElementById('bgMusic');
+            music.play().catch(e => console.log('Music autoplay prevented:', e));
+            
+            // Go to next screen
+            goToScreen(2);
+        }
+
+        function wrongAnswer() {
+            const messages = [
+                'Wrong answer! Try again 😤',
+                'Nope! Click YES! 😂',
+                'Wrong choice langga! 💔',
+                'Try again! You can do it! 😏',
+                'Still wrong! Come on! 😆'
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMessage);
+        }
+
+        function moveButton(button) {
+            const container = button.parentElement;
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            
+            // Random position within container
+            const maxX = containerRect.width - buttonRect.width - 20;
+            const maxY = 100;
+            
+            const randomX = Math.random() * maxX - maxX/2;
+            const randomY = Math.random() * maxY - maxY/2;
+            
+            button.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            
+            // Reset after a moment
+            setTimeout(() => {
+                button.style.transform = '';s
+            }, 300);
+        }
+
+        // Add touch support for mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const movingButtons = document.querySelectorAll('.moving-button');
+            movingButtons.forEach(button => {
+                // Move on touch
+                button.addEventListener('touchstart', function(e) {
+                    moveButton(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
